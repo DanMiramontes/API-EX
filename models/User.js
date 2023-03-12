@@ -5,7 +5,7 @@ const { model, Schema } = mongoose
 
 
 const userSchema = new Schema({
-    username : String,
+    username :{type :String, unique: true},
     name : String,
     passwordHash : String,
     notes :[{
