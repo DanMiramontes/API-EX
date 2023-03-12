@@ -4,13 +4,17 @@ require('./mongo.js')
 const express = require('express')
 //const cors = require('cors')
 const app = express()
+
+
 const Note = require('./models/Note.js')
-const handleErrors = require('./middleware/handleErrors.js')
-const notFound = require('./middleware/notFound.js')
-const usersRouter = require('./controllers/users')
-const { request, response } = require('express')
 const User = require('./models/User')
 
+const usersRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
+
+const handleErrors = require('./middleware/handleErrors.js')
+const notFound = require('./middleware/notFound.js')
+const userExtractor = require('./middleware/userExtractor.js')
 //app.use(cors())
 app.use(express.json())
 
@@ -50,13 +54,13 @@ app.get('/api/notes/:id',(request,response,next) =>{
 
 })
 
-app.post('/api/notes', async(request, response,next)=>{
+app.post('/api/notes',userExtractor, async(request, response,next)=>{
     const {
         content, 
-        important= false,
-        userId
+        important= false
     } = request.body
 
+   const { userId } = request
     const user = await User.findById(userId)
 
     if(!content){
@@ -89,7 +93,7 @@ app.post('/api/notes', async(request, response,next)=>{
 
 
 })
-app.put('/api/notes/:id',(request,response,next) =>{
+app.put('/api/notes/:id',userExtractor,(request,response,next) =>{
    const { id } = request.params
    const note = request.body
    const newNoteInfo = {
@@ -104,7 +108,7 @@ app.put('/api/notes/:id',(request,response,next) =>{
 
 })
 
-app.delete('/api/notes/:id',(request, response,next)=>{
+app.delete('/api/notes/:id',userExtractor,(request, response,next)=>{
     const { id } = request.params
     Note.findByIdAndDelete(id)
         .then(() => response.status(204).end())
@@ -115,6 +119,7 @@ app.delete('/api/notes/:id',(request, response,next)=>{
 })
 
 app.use('/api/users',usersRouter)
+app.use('/api/login',loginRouter)
 
 
 

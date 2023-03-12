@@ -1,7 +1,8 @@
 POST http://localhost:3001/api/notes/
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGQxMzhkNWZkZGE2ZjNjOTBlZTk5ZSIsInVzZXJuYW1lIjoiZGV2RGFuIiwiaWF0IjoxNjc4NTg2NzU5fQ.VYgaecaDCdvnYYv-MOBi7P4hV54d0UJeAW6CQn7HfDE
 {
-    "content" : "Mnesaje 2 MONGO",
+    "content" : "Mnesaje con token",
     "important": true,
-    "userId" :"640ccbfda826559553f87518",
+    "userId" :"640ccbfda826559553f87518"
 }
