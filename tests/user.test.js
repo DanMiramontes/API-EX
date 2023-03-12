@@ -37,6 +37,28 @@ describe('creation a new user', ()=>{
     const usernames = usersAtEnd.map(u => u.username)
     expect(usernames).toContain(newUser.username)
     })
+
+    test.skip('Creation fails with propers status code and message if username is already take', async()=>{
+        const usersAtStart = await getAllUser()
+
+        const newUser = {
+            username:'devDaniel',
+            name: 'Daniel',
+            password : 'Password'
+        }
+
+        const result = await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+        expect(result.body.error).toContain('`username` to be unique')
+
+        const usersAtEnd = await getAllUser()
+        expect(usersAtEnd).toHaveLength(usersAtStart.length +1)
+
+        
+    })
 })
 
 

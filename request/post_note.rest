@@ -2,5 +2,6 @@ POST http://localhost:3001/api/notes/
 Content-Type: application/json
 {
     "content" : "Mnesaje 2 MONGO",
-    "important": true
+    "important": true,
+    "userId" :"640ccbfda826559553f87518",
 }
